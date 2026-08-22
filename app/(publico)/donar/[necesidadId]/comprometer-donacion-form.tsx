@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { useActionState } from "react";
-import {
-  comprometerDonacion,
-  estadoInicialCompromisoDonacion,
-} from "./actions";
+import { comprometerDonacion } from "./actions";
+import { estadoInicialCompromisoDonacion } from "./estado-inicial";
 
 type Centro = {
   id: string;

@@ -5,25 +5,8 @@ import {
   esCompromisoValido,
   validarCompromisoDonacion,
   type CompromisoDonacionInput,
-  type ErroresCompromisoDonacion,
 } from "@/lib/donaciones/validar-compromiso";
-
-export type EstadoCompromisoDonacion = {
-  errores: ErroresCompromisoDonacion;
-  valores: CompromisoDonacionInput;
-  errorEnvio?: string;
-  resultado?: { codigo: string; centroNombre: string | null };
-};
-
-export const estadoInicialCompromisoDonacion: EstadoCompromisoDonacion = {
-  errores: {},
-  valores: {
-    cantidad: "",
-    contactoNombre: "",
-    contactoTelefono: "",
-    centroId: "",
-  },
-};
+import type { EstadoCompromisoDonacion } from "./estado-inicial";
 
 /**
  * Comprometer donación (FR-E2-02/03, US-E2-02). necesidadId viaja

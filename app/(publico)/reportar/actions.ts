@@ -5,28 +5,9 @@ import { createClient } from "@/lib/supabase/server";
 import {
   esReporteValido,
   validarReporteNecesidad,
-  type ErroresReporteNecesidad,
   type ReporteNecesidadInput,
 } from "@/lib/necesidades/validar-reporte";
-
-export type EstadoReporteNecesidad = {
-  errores: ErroresReporteNecesidad;
-  valores: ReporteNecesidadInput;
-  errorEnvio?: string;
-};
-
-export const estadoInicialReporteNecesidad: EstadoReporteNecesidad = {
-  errores: {},
-  valores: {
-    titulo: "",
-    categoria: "",
-    responsable: "",
-    cantidadNecesaria: "",
-    fechaLimite: "",
-    nodoId: "",
-    albergue: "",
-  },
-};
+import type { EstadoReporteNecesidad } from "./estado-inicial";
 
 /**
  * Reportar necesidad (FR-E1-01/02, US-E1-01). El insert es público —

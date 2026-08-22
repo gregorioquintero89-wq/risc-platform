@@ -1,10 +1,8 @@
 "use client";
 
 import { useActionState } from "react";
-import {
-  estadoInicialReporteNecesidad,
-  reportarNecesidad,
-} from "./actions";
+import { reportarNecesidad } from "./actions";
+import { estadoInicialReporteNecesidad } from "./estado-inicial";
 
 type Nodo = { id: string; municipio: string; departamento: string };
 
