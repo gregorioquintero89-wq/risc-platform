@@ -15,8 +15,13 @@ Metodología **VerticalOS**, Tier 3. Pipeline en curso:
 
 ```
 Business Discovery   ✅ docs/vertical-os/01-Business-Discovery.md
-OpenSpec              ⬅ siguiente paso
-PRD → Epic → User Stories → Arquitectura → Implementación
+OpenSpec              ✅ docs/vertical-os/02-OpenSpec.md
+PRD                    ✅ docs/vertical-os/03-PRD.md
+Epic Planning          ✅ docs/vertical-os/epics/ (9 epics, E1–E9)
+User Stories           ✅ R1 (E1,E2,E3,E8,E9) — 24 historias
+Technical Tasks        ✅ R1 — sin stack, checklist en cada US
+                          Sin puntos abiertos conocidos en R1.
+Arquitectura            ⬅ siguiente paso (elegir stack, ADR-0001)
 ```
 
 Contexto de negocio, decisiones cerradas y roadmap completo:
@@ -99,18 +104,19 @@ flowchart TD
 
 ---
 
-## Arquitectura (borrador de trabajo)
+## Arquitectura (aprobada — ADR-0001)
 
-> Pendiente de la fase formal de Arquitectura del pipeline VerticalOS
-> (después de PRD → Epic → User Stories). Lo que sigue es la hipótesis
-> de trabajo con la que se está armando el repo, no una decisión
-> cerrada del pipeline.
+> Decisión cerrada del pipeline VerticalOS, no una hipótesis de
+> trabajo. Razonamiento completo, alternativas descartadas y cuándo
+> reconsiderar cada elección: `docs/adr/0001-stack-selection.md`.
 
-Stack por defecto de VerticalOS: **Next.js + Supabase**. Se mantiene
-acá porque el riesgo central del dominio —proteger el contacto de
-familias y propietarios damnificados— se resuelve mejor con RLS en
-Postgres que con lógica de aplicación: un endpoint mal escrito no puede
-exponer una fila que la base nunca le devuelve.
+Stack: **Next.js + Supabase, sin ORM aparte**. El riesgo central del
+dominio —proteger el contacto de familias y propietarios
+damnificados— se resuelve con RLS en Postgres, no con lógica de
+aplicación: un endpoint mal escrito no puede exponer una fila que la
+base nunca le devuelve. Sin ORM porque la mayoría se conecta con una
+credencial de servicio que evita RLS por completo — ver el ADR para el
+detalle.
 
 ```mermaid
 flowchart TB
@@ -141,7 +147,7 @@ flowchart TB
         S1["Auth\n(líderes, admin)"]
         S2["RLS por ciudad\n(contacto protegido)"]
         S3["Auditoría\n(quién verificó, cuándo)"]
-        S4["Notificaciones\n(fuera de R1)"]
+        S4["Notificaciones\n(fuera de R1, salvo\nconsulta líder/suplente —\ncanal pendiente de Architecture)"]
     end
 
     subgraph L5["INFRAESTRUCTURA"]

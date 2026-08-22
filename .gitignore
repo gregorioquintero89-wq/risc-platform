@@ -3,3 +3,15 @@ node_modules/
 .env
 .env.local
 .DS_Store
+
+# next.js build artifacts
+next-env.d.ts
+*.tsbuildinfo
+
+# vitest / playwright output
+/coverage
+/playwright-report
+/test-results
+
+# vercel
+.vercel
