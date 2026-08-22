@@ -16,14 +16,16 @@ export default async function ReportarNecesidadPage() {
     .order("municipio");
 
   return (
-    <main>
+    <div className="pagina">
       <h1>Reportar una necesidad</h1>
       <p>
         Completá responsable, cantidad, ciudad y fecha límite — son los
         cuatro datos mínimos para que la necesidad quede registrada. Un
         líder de la ciudad la revisa antes de publicarla.
       </p>
-      <ReportarNecesidadForm nodos={nodos ?? []} />
-    </main>
+      <div className="tarjeta">
+        <ReportarNecesidadForm nodos={nodos ?? []} />
+      </div>
+    </div>
   );
 }

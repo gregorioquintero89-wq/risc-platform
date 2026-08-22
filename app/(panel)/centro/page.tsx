@@ -3,6 +3,7 @@ import { getMiRol } from "@/lib/roles/get-mi-rol";
 import { puedeOperarCentro } from "@/lib/roles/resolve-mi-rol";
 import { normalizarCodigo, puedeConfirmarRecepcion } from "@/lib/donaciones/recepcion";
 import { confirmarRecepcion } from "./actions";
+import styles from "./centro.module.css";
 
 export default async function CentroPage({
   searchParams,
@@ -13,8 +14,10 @@ export default async function CentroPage({
 
   if (!miRol || !puedeOperarCentro(miRol.rol)) {
     return (
-      <main>
-        <p role="alert">Tu rol no tiene acceso al centro de acopio.</p>
+      <main className="pagina">
+        <p role="alert" className="mensaje-error">
+          Tu rol no tiene acceso al centro de acopio.
+        </p>
       </main>
     );
   }
@@ -36,34 +39,50 @@ export default async function CentroPage({
   }
 
   return (
-    <main>
+    <div className="pagina">
       <h1>Centro de acopio</h1>
-      <form method="GET">
-        <label htmlFor="codigo">Código de la donación</label>
-        <input id="codigo" name="codigo" defaultValue={codigoParam ?? ""} required />
+      <form method="GET" className={styles.busqueda}>
+        <div className={styles.campoBusqueda}>
+          <label htmlFor="codigo">Código de la donación</label>
+          <input id="codigo" name="codigo" defaultValue={codigoParam ?? ""} required />
+        </div>
         <button type="submit">Buscar</button>
       </form>
 
       {codigo && !donacion && (
-        <p role="alert">No se encontró ninguna donación con ese código.</p>
+        <p role="alert" className="mensaje-error">
+          No se encontró ninguna donación con ese código.
+        </p>
       )}
 
       {donacion && (
-        <section>
-          <p>Código: {donacion.codigo}</p>
-          <p>Centro: {donacion.centro_nombre}</p>
-          <p>Cantidad: {donacion.cantidad}</p>
-          <p>Estado: {donacion.estado}</p>
+        <section className={`tarjeta ${styles.resultado}`}>
+          <div className={styles.encabezado}>
+            <p className={styles.codigo}>{donacion.codigo}</p>
+            <span className={`chip ${donacion.estado === "comprometida" ? "chip--medio" : "chip--resuelto"}`}>
+              {donacion.estado === "comprometida" ? "Comprometida" : "Recibida"}
+            </span>
+          </div>
+          <dl className={styles.detalle}>
+            <div>
+              <dt>Centro</dt>
+              <dd>{donacion.centro_nombre}</dd>
+            </div>
+            <div>
+              <dt>Cantidad</dt>
+              <dd>{donacion.cantidad}</dd>
+            </div>
+          </dl>
           {puedeConfirmarRecepcion(donacion.estado) ? (
-            <form action={confirmarRecepcion}>
+            <form action={confirmarRecepcion} className={styles.formConfirmar}>
               <input type="hidden" name="codigo" value={donacion.codigo} />
               <button type="submit">Confirmar recepción</button>
             </form>
           ) : (
-            <p>Esta donación ya fue recibida.</p>
+            <p className={styles.yaRecibida}>Esta donación ya fue recibida.</p>
           )}
         </section>
       )}
-    </main>
+    </div>
   );
 }

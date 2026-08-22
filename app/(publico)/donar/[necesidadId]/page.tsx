@@ -34,13 +34,15 @@ export default async function DonarPage({
     .order("nombre");
 
   return (
-    <main>
+    <div className="pagina">
       <h1>Donar para: {necesidad.titulo}</h1>
       <p>Todavía faltan {necesidad.faltante} unidades.</p>
-      <ComprometerDonacionForm
-        necesidadId={necesidad.id}
-        centros={centros ?? []}
-      />
-    </main>
+      <div className="tarjeta">
+        <ComprometerDonacionForm
+          necesidadId={necesidad.id}
+          centros={centros ?? []}
+        />
+      </div>
+    </div>
   );
 }

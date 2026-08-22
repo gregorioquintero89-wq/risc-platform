@@ -93,9 +93,13 @@ export function ReportarNecesidadForm({ nodos }: { nodos: Nodo[] }) {
         defaultValue={estado.valores.albergue}
       />
 
-      {estado.errorEnvio && <p role="alert">{estado.errorEnvio}</p>}
+      {estado.errorEnvio && (
+        <p role="alert" className="mensaje-error">
+          {estado.errorEnvio}
+        </p>
+      )}
 
-      <button type="submit" disabled={pendiente}>
+      <button type="submit" disabled={pendiente} className="boton--bloque">
         {pendiente ? "Enviando..." : "Reportar necesidad"}
       </button>
     </form>

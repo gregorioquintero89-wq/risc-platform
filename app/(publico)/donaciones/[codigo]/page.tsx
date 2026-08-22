@@ -1,6 +1,12 @@
+import type { Enums } from "@/lib/supabase/database.types";
 import { createClient } from "@/lib/supabase/server";
 import { formatearEstadoDonacion } from "@/lib/donaciones/formatear-estado";
 import { BuscarOtroCodigo } from "./buscar-otro-codigo";
+
+/** Chip variant for a donation's estado — recibida is green, comprometida is amber. */
+function chipEstadoDonacion(estado: Enums<"estado_donacion">) {
+  return estado === "recibida" ? "chip--resuelto" : "chip--medio";
+}
 
 /**
  * Consultar estado de una donación por código (FR-E2-06, US-E2-05).
@@ -28,28 +34,33 @@ export default async function ConsultarDonacionPage({
   const donacion = data?.[0];
 
   return (
-    <main>
+    <div className="pagina">
       <h1>Estado de tu donación</h1>
 
       {error || !donacion ? (
-        <p role="alert">
+        <p role="alert" className="mensaje-error">
           No encontramos una donación con el código {codigo.toUpperCase()}.
           Revisá que esté bien escrito.
         </p>
       ) : (
-        <dl>
-          <dt>Código</dt>
-          <dd>{donacion.codigo}</dd>
-          <dt>Cantidad</dt>
-          <dd>{donacion.cantidad}</dd>
-          <dt>Estado</dt>
-          <dd>{formatearEstadoDonacion(donacion.estado)}</dd>
-          <dt>Centro de acopio</dt>
-          <dd>{donacion.centro_nombre}</dd>
-        </dl>
+        <div className="tarjeta">
+          <span className={`chip ${chipEstadoDonacion(donacion.estado)}`}>
+            {formatearEstadoDonacion(donacion.estado)}
+          </span>
+          <dl className="ficha">
+            <dt>Código</dt>
+            <dd className="codigo-destacado">{donacion.codigo}</dd>
+            <dt>Cantidad</dt>
+            <dd>{donacion.cantidad}</dd>
+            <dt>Centro de acopio</dt>
+            <dd>{donacion.centro_nombre}</dd>
+          </dl>
+        </div>
       )}
 
-      <BuscarOtroCodigo />
-    </main>
+      <div style={{ marginTop: "24px" }}>
+        <BuscarOtroCodigo />
+      </div>
+    </div>
   );
 }

@@ -1,0 +1,23 @@
+.main {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+}
+
+.tarjeta {
+  width: 100%;
+  max-width: 360px;
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.enviar {
+  width: 100%;
+  margin-top: 20px;
+}

@@ -34,7 +34,7 @@ export function ComprometerDonacionForm({
       <section aria-live="polite">
         <h2>Tu donación quedó registrada</h2>
         <p>
-          Código: <strong>{codigo}</strong>
+          Código: <span className="codigo-destacado">{codigo}</span>
         </p>
         <p>
           Entregala en <strong>{centroNombre ?? "el centro elegido"}</strong>.
@@ -53,7 +53,7 @@ export function ComprometerDonacionForm({
 
   if (centros.length === 0) {
     return (
-      <p role="alert">
+      <p role="alert" className="mensaje-error">
         Todavía no hay centros de acopio disponibles en esta ciudad. Volvé a
         intentar más tarde.
       </p>
@@ -112,9 +112,13 @@ export function ComprometerDonacionForm({
       </select>
       {estado.errores.centroId && <p role="alert">{estado.errores.centroId}</p>}
 
-      {estado.errorEnvio && <p role="alert">{estado.errorEnvio}</p>}
+      {estado.errorEnvio && (
+        <p role="alert" className="mensaje-error">
+          {estado.errorEnvio}
+        </p>
+      )}
 
-      <button type="submit" disabled={pendiente}>
+      <button type="submit" disabled={pendiente} className="boton--bloque">
         {pendiente ? "Enviando..." : "Comprometer donación"}
       </button>
     </form>

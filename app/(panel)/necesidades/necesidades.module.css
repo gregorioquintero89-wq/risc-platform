@@ -1,0 +1,74 @@
+.seccion {
+  margin-top: 32px;
+}
+
+.seccion:first-child {
+  margin-top: 0;
+}
+
+.tituloSeccion {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.itemEncabezado {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.itemTitulo {
+  margin: 0;
+  font-size: 16px;
+}
+
+.itemMeta {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+}
+
+.accionPublicar {
+  margin-top: 14px;
+}
+
+.accionPublicar button {
+  width: 100%;
+}
+
+.formDescarte {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.formDescarte button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.barraFondo {
+  background: var(--surface-muted);
+  border-radius: var(--radius-pill);
+  height: 8px;
+  margin: 12px 0 8px;
+  overflow: hidden;
+}
+
+.barraRelleno {
+  background: var(--navy);
+  height: 100%;
+  border-radius: var(--radius-pill);
+}

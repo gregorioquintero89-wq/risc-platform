@@ -1,0 +1,75 @@
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.header {
+  background: var(--navy);
+  color: white;
+  padding: 18px 20px;
+}
+
+.headerFila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.marca {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  color: white;
+}
+
+.chipRol {
+  background: oklch(1 0 0 / 0.16);
+  color: white;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 960px;
+  margin: 14px auto 0;
+  overflow-x: auto;
+}
+
+.navLink {
+  color: oklch(1 0 0 / 0.85);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.navLink:hover {
+  color: white;
+  text-decoration: none;
+  background: oklch(1 0 0 / 0.1);
+}
+
+.logoutForm {
+  margin-left: auto;
+}
+
+.logoutBtn {
+  background: transparent;
+  color: oklch(1 0 0 / 0.85);
+  border: 1.5px solid oklch(1 0 0 / 0.35);
+  font-size: 13px;
+  padding: 8px 14px;
+}
+
+.logoutBtn:hover:not(:disabled) {
+  background: oklch(1 0 0 / 0.1);
+  color: white;
+  border-color: oklch(1 0 0 / 0.5);
+}
