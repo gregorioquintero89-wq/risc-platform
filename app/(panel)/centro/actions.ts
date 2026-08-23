@@ -1,9 +1,16 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { normalizarCodigo } from "@/lib/donaciones/recepcion";
 
+/**
+ * redirect() al mismo código de búsqueda: fuerza el re-render server
+ * (garantía documentada de Next, ver necesidades/actions.ts) y de paso
+ * deja al operador viendo el estado actualizado de la misma donación
+ * que acaba de confirmar, sin tener que volver a buscar el código.
+ */
 export async function confirmarRecepcion(formData: FormData) {
   const codigo = normalizarCodigo(String(formData.get("codigo") ?? ""));
   const supabase = await createClient();
@@ -22,4 +29,5 @@ export async function confirmarRecepcion(formData: FormData) {
     .eq("estado", "comprometida");
 
   revalidatePath("/centro");
+  redirect(`/centro?codigo=${encodeURIComponent(codigo)}`);
 }
