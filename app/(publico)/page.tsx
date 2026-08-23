@@ -85,8 +85,7 @@ export default async function PortalPublicoPage({
         </svg>
         <p>
           Cada necesidad de esta lista ya fue revisada por un líder de su
-          ciudad antes de publicarse — RISC no publica nada sin verificar
-          (FR-E1-02, FR-E1-03).
+          ciudad antes de publicarse — RISC no publica nada sin verificar.
         </p>
       </div>
 
