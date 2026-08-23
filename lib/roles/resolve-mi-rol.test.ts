@@ -1,8 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
+  actorPuedeAsignar,
   puedeGestionarNecesidades,
+  puedeGestionarCentros,
+  puedeGestionarNodos,
   puedeOperarCentro,
   resolveMiRol,
+  rolesAsignablesPor,
 } from "./resolve-mi-rol";
 
 describe("resolveMiRol", () => {
@@ -55,5 +59,87 @@ describe("puedeOperarCentro", () => {
 
   it("blocks admin_nacional", () => {
     expect(puedeOperarCentro("admin_nacional")).toBe(false);
+  });
+});
+
+describe("rolesAsignablesPor", () => {
+  it("admin_nacional puede asignar los 4 roles (roles_admin_asigna, sin restricción)", () => {
+    expect(rolesAsignablesPor("admin_nacional")).toEqual([
+      "lider",
+      "suplente",
+      "operador",
+      "admin_nacional",
+    ]);
+  });
+
+  it("lider solo puede asignar suplente u operador — nunca lider (roles_lider_asigna_en_su_nodo)", () => {
+    expect(rolesAsignablesPor("lider")).toEqual(["suplente", "operador"]);
+  });
+
+  it("suplente tiene el mismo alcance que lider para asignar roles (FR-E8-06)", () => {
+    expect(rolesAsignablesPor("suplente")).toEqual(["suplente", "operador"]);
+  });
+
+  it("operador no puede asignar ningún rol", () => {
+    expect(rolesAsignablesPor("operador")).toEqual([]);
+  });
+});
+
+describe("puedeGestionarCentros", () => {
+  it("allows lider, suplente y admin_nacional (matches centros_gestiona_lider)", () => {
+    expect(puedeGestionarCentros("lider")).toBe(true);
+    expect(puedeGestionarCentros("suplente")).toBe(true);
+    expect(puedeGestionarCentros("admin_nacional")).toBe(true);
+  });
+
+  it("blocks operador", () => {
+    expect(puedeGestionarCentros("operador")).toBe(false);
+  });
+});
+
+describe("puedeGestionarNodos", () => {
+  it("solo admin_nacional (matches nodos_admin_gestiona)", () => {
+    expect(puedeGestionarNodos("admin_nacional")).toBe(true);
+    expect(puedeGestionarNodos("lider")).toBe(false);
+    expect(puedeGestionarNodos("suplente")).toBe(false);
+    expect(puedeGestionarNodos("operador")).toBe(false);
+  });
+});
+
+describe("actorPuedeAsignar", () => {
+  it("admin_nacional puede asignar lider en cualquier nodo", () => {
+    expect(
+      actorPuedeAsignar({ rol: "admin_nacional", nodoId: null }, "lider", "nodo-x"),
+    ).toBe(true);
+  });
+
+  it("admin_nacional puede asignar admin_nacional (sin nodo)", () => {
+    expect(
+      actorPuedeAsignar({ rol: "admin_nacional", nodoId: null }, "admin_nacional", null),
+    ).toBe(true);
+  });
+
+  it("lider puede asignar suplente/operador en SU propio nodo", () => {
+    expect(
+      actorPuedeAsignar({ rol: "lider", nodoId: "nodo-1" }, "operador", "nodo-1"),
+    ).toBe(true);
+  });
+
+  it("lider NO puede asignar en un nodo ajeno", () => {
+    expect(
+      actorPuedeAsignar({ rol: "lider", nodoId: "nodo-1" }, "operador", "nodo-2"),
+    ).toBe(false);
+  });
+
+  it("lider NO puede asignar rol de lider (escalada de privilegios bloqueada)", () => {
+    expect(
+      actorPuedeAsignar({ rol: "lider", nodoId: "nodo-1" }, "lider", "nodo-1"),
+    ).toBe(false);
+  });
+
+  it("operador no puede asignar nada", () => {
+    expect(
+      actorPuedeAsignar({ rol: "operador", nodoId: "nodo-1" }, "operador", "nodo-1"),
+    ).toBe(false);
   });
 });

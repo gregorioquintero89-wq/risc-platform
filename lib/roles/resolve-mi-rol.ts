@@ -24,3 +24,40 @@ export function puedeGestionarNecesidades(rol: RolRisc): boolean {
 export function puedeOperarCentro(rol: RolRisc): boolean {
   return rol === "lider" || rol === "suplente" || rol === "operador";
 }
+
+/**
+ * Espejo de las policies roles_admin_asigna / roles_lider_asigna_en_su_nodo
+ * (RLS es la autoridad real; esto es solo para no mostrar en la UI una
+ * opción que la base va a rechazar igual).
+ */
+export function rolesAsignablesPor(rol: RolRisc): RolRisc[] {
+  if (rol === "admin_nacional") return ["lider", "suplente", "operador", "admin_nacional"];
+  if (rol === "lider" || rol === "suplente") return ["suplente", "operador"];
+  return [];
+}
+
+/** Espejo de centros_gestiona_lider. */
+export function puedeGestionarCentros(rol: RolRisc): boolean {
+  return rol === "lider" || rol === "suplente" || rol === "admin_nacional";
+}
+
+/** Espejo de nodos_admin_gestiona. */
+export function puedeGestionarNodos(rol: RolRisc): boolean {
+  return rol === "admin_nacional";
+}
+
+/**
+ * Autorización completa (rol + nodo) para asignar rolObjetivo en
+ * nodoObjetivo. Espejo exacto de roles_admin_asigna +
+ * roles_lider_asigna_en_su_nodo — RLS es quien realmente lo hace
+ * cumplir, esto solo evita ofrecer en la UI algo que la base rechazaría.
+ */
+export function actorPuedeAsignar(
+  actor: MiRol,
+  rolObjetivo: RolRisc,
+  nodoObjetivo: string | null,
+): boolean {
+  if (!rolesAsignablesPor(actor.rol).includes(rolObjetivo)) return false;
+  if (actor.rol === "admin_nacional") return true;
+  return actor.nodoId !== null && actor.nodoId === nodoObjetivo;
+}

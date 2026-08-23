@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { getMiRol } from "@/lib/roles/get-mi-rol";
-import { puedeGestionarNecesidades, puedeOperarCentro } from "@/lib/roles/resolve-mi-rol";
+import {
+  puedeGestionarNecesidades,
+  puedeGestionarCentros,
+  puedeGestionarNodos,
+  puedeOperarCentro,
+  rolesAsignablesPor,
+} from "@/lib/roles/resolve-mi-rol";
 import { logout } from "./actions";
 import styles from "./panel.module.css";
 
@@ -43,6 +49,21 @@ export default async function PanelLayout({ children }: { children: React.ReactN
           {puedeOperarCentro(miRol.rol) && (
             <Link href="/centro" className={styles.navLink}>
               Centro de acopio
+            </Link>
+          )}
+          {puedeGestionarCentros(miRol.rol) && (
+            <Link href="/centro/nuevo" className={styles.navLink}>
+              Nuevo centro
+            </Link>
+          )}
+          {rolesAsignablesPor(miRol.rol).length > 0 && (
+            <Link href="/roles" className={styles.navLink}>
+              Roles
+            </Link>
+          )}
+          {puedeGestionarNodos(miRol.rol) && (
+            <Link href="/nodos" className={styles.navLink}>
+              Ciudades
             </Link>
           )}
           <form action={logout} className={styles.logoutForm}>
