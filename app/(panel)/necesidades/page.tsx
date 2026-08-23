@@ -3,7 +3,7 @@ import { getMiRol } from "@/lib/roles/get-mi-rol";
 import { puedeGestionarNecesidades } from "@/lib/roles/resolve-mi-rol";
 import { compararPublicadas } from "@/lib/necesidades/transiciones";
 import { calcularProgresoDonacion } from "@/lib/necesidades/calcular-progreso";
-import { descartarNecesidad, publicarNecesidad } from "./actions";
+import { PublicarDescartarForm } from "./publicar-descartar-form";
 import styles from "./necesidades.module.css";
 
 /**
@@ -79,18 +79,7 @@ export default async function NecesidadesPage() {
                 <p className={styles.itemMeta}>
                   Responsable: {n.responsable} — fecha límite: {n.fecha_limite}
                 </p>
-                <form action={publicarNecesidad} className={styles.accionPublicar}>
-                  <input type="hidden" name="id" value={n.id} />
-                  <button type="submit">Publicar</button>
-                </form>
-                <form action={descartarNecesidad} className={styles.formDescarte}>
-                  <input type="hidden" name="id" value={n.id} />
-                  <label htmlFor={`motivo-${n.id}`}>Motivo del descarte</label>
-                  <input id={`motivo-${n.id}`} name="motivo" required />
-                  <button type="submit" className="secundario">
-                    Descartar
-                  </button>
-                </form>
+                <PublicarDescartarForm id={n.id} />
               </li>
             ))}
           </ul>

@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getMiRol } from "@/lib/roles/get-mi-rol";
 import { puedeOperarCentro } from "@/lib/roles/resolve-mi-rol";
 import { normalizarCodigo, puedeConfirmarRecepcion } from "@/lib/donaciones/recepcion";
-import { confirmarRecepcion } from "./actions";
+import { ConfirmarRecepcionForm } from "./confirmar-recepcion-form";
 import styles from "./centro.module.css";
 
 export default async function CentroPage({
@@ -74,10 +74,7 @@ export default async function CentroPage({
             </div>
           </dl>
           {puedeConfirmarRecepcion(donacion.estado) ? (
-            <form action={confirmarRecepcion} className={styles.formConfirmar}>
-              <input type="hidden" name="codigo" value={donacion.codigo} />
-              <button type="submit">Confirmar recepción</button>
-            </form>
+            <ConfirmarRecepcionForm codigo={donacion.codigo} />
           ) : (
             <p className={styles.yaRecibida}>Esta donación ya fue recibida.</p>
           )}
