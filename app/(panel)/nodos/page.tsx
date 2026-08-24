@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getMiRol } from "@/lib/roles/get-mi-rol";
 import { puedeGestionarNodos } from "@/lib/roles/resolve-mi-rol";
 import { CrearNodoForm } from "./crear-nodo-form";
+import { NodoRosterItem } from "./nodo-roster-item";
 
 export default async function NodosPage() {
   const miRol = await getMiRol();
@@ -19,7 +20,7 @@ export default async function NodosPage() {
   const supabase = await createClient();
   const { data: nodos } = await supabase
     .from("nodos")
-    .select("id, municipio, departamento")
+    .select("id, municipio, departamento, activo")
     .order("municipio");
 
   return (
@@ -28,15 +29,13 @@ export default async function NodosPage() {
 
       <CrearNodoForm />
 
-      <h2 style={{ marginTop: 32 }}>Ciudades activas</h2>
+      <h2 style={{ marginTop: 32 }}>Ciudades</h2>
       {(nodos ?? []).length === 0 ? (
         <p className="mensaje-vacio">Todavía no hay ciudades registradas.</p>
       ) : (
         <ul className="lista-necesidades">
           {(nodos ?? []).map((n) => (
-            <li key={n.id} className="tarjeta">
-              {n.municipio} — {n.departamento}
-            </li>
+            <NodoRosterItem key={n.id} nodo={n} />
           ))}
         </ul>
       )}

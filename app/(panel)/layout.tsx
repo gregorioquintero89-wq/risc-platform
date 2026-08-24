@@ -53,7 +53,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
           )}
           {puedeGestionarCentros(miRol.rol) && (
             <Link href="/centro/nuevo" className={styles.navLink}>
-              Nuevo centro
+              Centros
             </Link>
           )}
           {rolesAsignablesPor(miRol.rol).length > 0 && (
@@ -66,6 +66,9 @@ export default async function PanelLayout({ children }: { children: React.ReactN
               Ciudades
             </Link>
           )}
+          <Link href="/perfil" className={styles.navLink}>
+            Mi perfil
+          </Link>
           <form action={logout} className={styles.logoutForm}>
             <button type="submit" className={styles.logoutBtn}>
               Cerrar sesión

@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getMiRol } from "@/lib/roles/get-mi-rol";
 import { puedeGestionarCentros } from "@/lib/roles/resolve-mi-rol";
 import { CrearCentroForm } from "./crear-centro-form";
+import { CentroRosterItem } from "./centro-roster-item";
 
 export default async function NuevoCentroPage() {
   const miRol = await getMiRol();
@@ -28,10 +29,27 @@ export default async function NuevoCentroPage() {
     nodos = data ?? [];
   }
 
+  const supabase2 = await createClient();
+  const { data: centros } = await supabase2
+    .from("centros_acopio")
+    .select("id, nombre, ubicacion, horario, activo")
+    .order("nombre");
+
   return (
     <div className="pagina">
       <h1>Nuevo centro de acopio</h1>
       <CrearCentroForm nodos={nodos} requiereSelectorNodo={requiereSelectorNodo} />
+
+      <h2 style={{ marginTop: 32 }}>Centros existentes</h2>
+      {(centros ?? []).length === 0 ? (
+        <p className="mensaje-vacio">Todavía no hay centros de acopio.</p>
+      ) : (
+        <ul className="lista-necesidades">
+          {(centros ?? []).map((c) => (
+            <CentroRosterItem key={c.id} centro={c} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

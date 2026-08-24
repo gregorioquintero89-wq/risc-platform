@@ -52,5 +52,7 @@ export const config = {
     "/roles/:path*",
     "/nodos",
     "/nodos/:path*",
+    "/perfil",
+    "/perfil/:path*",
   ],
 };

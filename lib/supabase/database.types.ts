@@ -71,6 +71,7 @@ export type Database = {
       }
       centros_acopio: {
         Row: {
+          activo: boolean
           created_at: string
           horario: string
           id: string
@@ -80,6 +81,7 @@ export type Database = {
           ubicacion: string
         }
         Insert: {
+          activo?: boolean
           created_at?: string
           horario: string
           id?: string
@@ -89,6 +91,7 @@ export type Database = {
           ubicacion: string
         }
         Update: {
+          activo?: boolean
           created_at?: string
           horario?: string
           id?: string
@@ -374,6 +377,18 @@ export type Database = {
         Returns: {
           centro_nombre: string
           codigo: string
+        }[]
+      }
+      listar_roles_visibles: {
+        Args: never
+        Returns: {
+          email: string
+          id: string
+          nodo_id: string
+          nodo_nombre: string
+          nombre: string
+          rol: Database["public"]["Enums"]["rol_risc"]
+          user_id: string
         }[]
       }
       mi_rol: {
