@@ -20,11 +20,12 @@ export async function asignarRol(
   }
 
   const email = String(formData.get("email") ?? "").trim();
+  const nombre = String(formData.get("nombre") ?? "").trim();
   const rolObjetivoRaw = String(formData.get("rol") ?? "");
   const nodoIdForm = String(formData.get("nodoId") ?? "").trim() || null;
 
-  if (!email || !ROLES_VALIDOS.includes(rolObjetivoRaw as RolRisc)) {
-    return { ok: false, error: "Completá el correo y elegí un rol." };
+  if (!email || !nombre || !ROLES_VALIDOS.includes(rolObjetivoRaw as RolRisc)) {
+    return { ok: false, error: "Completá el nombre, el correo y elegí un rol." };
   }
   const rolObjetivo = rolObjetivoRaw as RolRisc;
 
@@ -44,7 +45,7 @@ export async function asignarRol(
 
   let usuario: { id: string; cuentaNueva: boolean; passwordTemporal?: string };
   try {
-    usuario = await buscarOCrearUsuarioPorEmail(email);
+    usuario = await buscarOCrearUsuarioPorEmail(email, nombre);
   } catch {
     return { ok: false, error: "No se pudo crear la cuenta para ese correo." };
   }
@@ -62,6 +63,11 @@ export async function asignarRol(
   }
 
   return usuario.cuentaNueva
-    ? { ok: true, passwordTemporal: usuario.passwordTemporal, emailCreado: email }
+    ? {
+        ok: true,
+        passwordTemporal: usuario.passwordTemporal,
+        emailCreado: email,
+        nombreCreado: nombre,
+      }
     : { ok: true };
 }

@@ -3,6 +3,7 @@ export type EstadoAsignarRol = {
   error?: string;
   passwordTemporal?: string;
   emailCreado?: string;
+  nombreCreado?: string;
 };
 
 /**

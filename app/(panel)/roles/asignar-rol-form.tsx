@@ -42,6 +42,7 @@ export function AsignarRolForm({
           contraseña temporal. Compartísela por un canal seguro; no se vuelve a mostrar.
         </p>
         <p className="codigo-destacado">{estado.passwordTemporal}</p>
+        <p className="mensaje-vacio">Nombre registrado: {estado.nombreCreado}</p>
         <button type="button" onClick={() => router.refresh()}>
           Listo
         </button>
@@ -59,6 +60,9 @@ export function AsignarRolForm({
 
   return (
     <form action={accion} className="tarjeta">
+      <label htmlFor="nombre">Nombre completo</label>
+      <input id="nombre" name="nombre" required />
+
       <label htmlFor="email">Correo de la persona</label>
       <input id="email" name="email" type="email" required />
 
